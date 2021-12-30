@@ -1,0 +1,2 @@
+# SDS-Prescreen-Tool-python-to-exe-file-using-Nuitka
+This This tool utilizes tokenization from the NLP library to search through a given Safety Data Sheet to identify chemicals of interest that pertain to Federal and International regulatory requirements. Contianing a simple GUI input and output for a easy user experience. This link demonstrates how to convert this python file to a executable file using Nuitka.
