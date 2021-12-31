@@ -259,6 +259,7 @@ Currently this means, you need to use one of these compilers:
 
 ## Installing Nuitka:
 python -m pip install nuitka
+
 Verify using command python -m nuitka --version
 
 ## If applicable, convert .ipynb to .py
