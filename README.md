@@ -1,7 +1,7 @@
 # SDS Prescreen Tool with instructions on how to convert a python file to an EXE using Nuitka
-This tool utilizes tokenization from the NLP library to search through a given Safety Data Sheet (SDS) to identify chemicals of interest that pertain to federal and international regulatory requirements. This was a project that I worked on as a Regulatory Analyst for a chemical company that specialized on adhesives for consumer and industrial products. The main purpose was to quickly identify or flagg chemicals that appear in a SDS that also are listed on mulitple federal and international regulatory lists. In the first half of this project, will be the python code that I wrote for this project. This contains a simple GUI input and output for a easy user experience. In the second half of this project, there will be a reference guide on  how to convert a python file to a executable file using Nuitka. From my experience in this project, Nuitka was the easiest and fastest way to convert a python file to an executable file that also can be shared with someone else. I recommend if you visited this link for learning how, I recommend jumping to section 2. There will additional information about Nuitka located there.
+This tool utilizes tokenization from the NLP library to search through a given Safety Data Sheet (SDS) to identify chemicals of interest that pertain to federal and international regulatory requirements. This was a project that I worked on as a Regulatory Analyst for a chemical company that specialized on adhesives for consumer and industrial products. The main purpose was to quickly identify or flagg chemicals that appear in a SDS that also are listed on mulitple federal and international regulatory lists. In the first half of this project, will be the python code that I wrote for this project. This contains a simple GUI input and output for a easy user experience. In the second half of this project, there will be a reference guide on  how to convert a python file to a executable file using Nuitka. From my experience in this project, Nuitka was the easiest and fastest way to convert a python file to an executable file that also can be shared with someone else. I recommend if you visited this link for learning how, I recommend jumping to section 2 (eventualy, I will create another respository for only this and provide a link here). There will be additional information about Nuitka located there as well.
 
-## Part 1  
+# Part 1  
 ## Section 1: Importing applicable libraries
 ```
 import PySimpleGUI as sg      
@@ -214,7 +214,13 @@ For file: 0110116 MONDUR 1453 - Covestro - 14-JUN-2018 - English.pdf
 
 This pop-up indicates that there is most likely a hazard or multiple hazards and multiple substances listed on a few list such as RTK (Right to Know), HAPS (Hazardous air pollutants), and TSCA. 
 
+# Part 2 - How to Convert a Python File to Exe File Using Nuitka
 
-
+Note: These steps may vary for each person or project depending on:
+1. which libraries are imported 
+2. whether or not the exe file is being shared
+3. file size constraints
+4. version of certain libraries
+5. whether or not certian files are in the right directory
 
 
