@@ -239,4 +239,63 @@ Note: These steps may vary for each person or project depending on:
 4. version of certain libraries
 5. whether or not certian files are in the right directory (this is a result of a library missing a file that may be located else where)
 
+## Requirements:
+Mentioned in the User manual there is some requirements for using Nuitka:
+
+C Compiler: You need a compiler with support for C11 or alternatively for C++03 1
+Currently this means, you need to use one of these compilers:
+
+1. The MinGW64 C11 compiler on Windows, must be based on gcc 11.2 or higher. It will be automatically downloaded if no usable C compiler is found, which is the recommended way of installing it, as Nuitka will also upgrade it for you.
+
+2. Visual Studio 2022 or higher on Windows 2, older versions will work but only supported for commercial users. Configure to use the English language pack for best results (Nuitka filters away garbage outputs, but only for English language). It will be used by default if installed.
+
+3. On all other platforms, the gcc compiler of at least version 5.1, and below that the g++ compiler of at least version 4.4 as an alternative.
+
+4. The clang compiler on macOS X and most FreeBSD architectures.
+
+5. On Windows the clang-cl compiler on Windows can be used if provided by the Visual Studio installer.
+
+6. Python: Version 2.6, 2.7 or 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9
+
+## Installing Nuitka:
+python -m pip install nuitka
+Verify using command python -m nuitka --version
+
+## If applicable, convert .ipynb to .py
+If you are using jupyter notebook, you will need to download your .ipynb file as a .py file. To do this open the .ipynb file in juypter notebook. Under the file tab, scroll down to download as, to the right will be a list. Select python (.py). Basically, this will just copy your .ipynb as a .py file. 
+
+## Basics:
+
+1. Use command line 
+2. Set or change directory where .py file is located
+Example: cd C:\Users\Your_Name\Desktop\folder
+3. 
+
+## Some of my Tips
+1. Use --help to get 
+2. Read the manual when you get lost, however
+3. Make sure to enable pluggins, if unsure read through the --help in command line
+4. use --plugin-enable=anti-bloat to reduce size of the exe file or unwanted files in the file.dist
+5. Be prepared to compile lots of extension modules by using --module some_module.py for every module that is needed or missing. The unknown modules can be determine by trial and error with running the new exe file in Virtual Studio. 
+6. Be prepared to add files to the file.dist folder from specific folders. These files aren't located in the correct file location when compiling, this results in an error. The list below were the missing files based off of my imported libraries in my python code:
+
+located in directory:
+...\AppData\Roaming\Python\Python38\site-packages\tensorflow\lite
+copy over the "experimental folder" to: ...\Desktop\Folder\file.dist\tensorflow\lite
+
+in this directory:
+...\anaconda3\Lib\site-packages\thinc\backends
+copy over "_custom_kernals.cu" and "_murmur3.cu" to"...\Desktop\folder\file.dist\thinc\backends
+
+in this directory:
+...\anaconda3\Lib\site-packages\spacy
+copy over "default_config.cfg" and "cli" folders to:  ...\Desktop\folder\file.dist\spacy
+
+in this directory:
+...\anaconda3\Lib
+copy over the "en_core_web_sm" file to: ...\Desktop\Folder\file.dist
+
+## My end result that got me a sharable Exe file:
+
+python -m nuitka --mingw64 --standalone --follow-imports --plugin-enable=anti-bloat --plugin-enable=numpy --plugin-enable=pylint-warnings --plugin-enable=multiprocessing --plugin-enable=tensorflow --plugin-enable=tk-inter --plugin-enable=torch --plugin-enable=pbr-compat --plugin-enable=pkg-resources --plugin-enable=data-files --plugin-enable=dill-compat --plugin-no-detection --prefer-source-code --assume-yes-for-downloads --show-scons --include-module=srsly.msgpack.util --include-module=cymem --include-module=preshed.maps --include-module=thinc.backends.linalg --include-module=blis --include-module=spacy.parts_of_speech --include-module=spacy.tokens._dict_proxies --include-module=spacy.lexeme --include-module=spacy.lang.norm_exceptions --include-module=spacy.lang.lex_attrs --include-module=spacy.pipeline.transition_parser --include-module=spacy.pipeline._parser_internals.stateclass --include-module=spacy.pipeline._parser_internals.transition_system --include-package-data=PACKAGE_DATA --include-package=spacy --include-package=tensorflow --include-package=thinc --include-package=en_core_web_sm --include-package-data=PATTERN --windows-icon-from-ico=favicon.ico NLP_SDS_Prescreening_os.py
 
