@@ -30,7 +30,7 @@ window.close()
 ![image](https://user-images.githubusercontent.com/47721595/147795535-92d9909f-a016-473e-a4c4-64a50bdb4517.png)
 
 ## Section 3: Assigning variables
-Note: values with brackets contianing a number indicate which input field from GUI is assigned. Example: values[0] indicates the first field. 
+Note: values with brackets contianing a number indicate which input field from GUI is assigned. Example: values[0] indicates the first text field in the simple GUI. 
 ```
 nlp = en_core_web_sm.load()
 filename = values[0]
@@ -46,7 +46,7 @@ pageCount = pdfFileReader.numPages
 output = []
 ```
 ## Section 5: Tokenizing the word count
-In the below code, for the variable "tokens2", you will notice that its finding all characters until the 3500th character location with the syntax of (\d{1,6}[-]??\d{2}[-]??\d{1}). This is because in the world of chemical regulations every chemical and/or substance is assigned a numerical code. This numerical code is called a CAS number. For instance Formaldehyde's CAS number is 50-00-0. In the third section of a Safety Data Sheet, is where a list of substances that make up finished product that are deemed hazardous and are classified under the global harmonized system (GHS). Here is normally where someone would identify a CAS #. Setting the search to end at the 3500th character location reduces the chances of having additional information that may or may not be needed depending on task.
+In the below code, for the variable "tokens2", you will notice that its finding all characters until the 3500th character location with the syntax of (\d{1,6}[-]??\d{2}[-]??\d{1}). This is because in the world of chemical regulations every chemical and/or substance is assigned a numerical code. This numerical code is called a CAS number. For instance Formaldehyde's CAS number is 50-00-0. In the section three of a Safety Data Sheet, is where a list of substances that make up finished product that are deemed hazardous and are classified under the global harmonized system (GHS). This location is normally where someone would identify a CAS number. Section 1 of an SDS identifies the product and manufacturer's contact information. Section 2 of the SDS lists hazards classified under GHS. Setting the search to end at the 3500th character location reduces the chances of having additional information that may or may not be needed depending on task. If needed to illustrate this, I have provided SDS examples from two different manufacturers in the files section and screenshots of the first pages of one below the code.
 ```
 for i in range(pageCount):
     pdfPage = pdfFileReader.getPage(i)
@@ -58,6 +58,9 @@ doc = nlp(alltexts)
 tokens = re.findall("[\w']+", alltexts[:2000])
 tokens2 = re.findall("(\d{1,6}[-]??\d{2}[-]??\d{1})", alltexts[:3500])
 ```
+![image](https://user-images.githubusercontent.com/47721595/147798427-b9ba31ea-3454-419c-80a9-235630eff17e.png)
+![image](https://user-images.githubusercontent.com/47721595/147798469-0a0c7455-0781-479a-9a16-fd8a34875447.png)
+
 Listing specific words of interest or "flags" that might indicate hazards
 ```
 hazards = ['Flammable', 'flammable', 'Gases', 'gases', 'pyrophoric', 'Pyrophoric', 'Chemically', 
