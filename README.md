@@ -61,7 +61,13 @@ tokens2 = re.findall("(\d{1,6}[-]??\d{2}[-]??\d{1})", alltexts[:3500])
 ![image](https://user-images.githubusercontent.com/47721595/147798427-b9ba31ea-3454-419c-80a9-235630eff17e.png)
 ![image](https://user-images.githubusercontent.com/47721595/147798469-0a0c7455-0781-479a-9a16-fd8a34875447.png)
 
-Listing specific words of interest or "flags" that might indicate hazards
+## Section 6: Listing specific words of interest or "flags" that might indicate hazards
+As previously mention, in section 2 of a SDS is where a company lists GHS classified hazards for a product. There is many different type of hazards along with categorical indentifiers for each hazard. Prior to 2013, hazards were listed very ambiguously and left a reader uncertain. As a result GHS was created to reduce this ambigous language in section this section, but also create a standard for all Safety Data Sheets. This of course is whether or not a country adapts this as a regulation, so some SDSs may differ for regions. 
+
+If you want to learn more about GHS, I would recommend this link: https://www.ccohs.ca/oshanswers/chemicals/ghs.html 
+Also, if you are a curious person and want to know hazards of specific chemicals I would recommend searching through Europes Chemical Agency's database by this link: https://echa.europa.eu/
+
+Note: Once you click and get routed to desired substance page, click on C&L Inventory button located half way down the page. This will list hazards associated with the substance if its not diluted.
 ```
 hazards = ['Flammable', 'flammable', 'Gases', 'gases', 'pyrophoric', 'Pyrophoric', 'Chemically', 
            'unstable', 'Aerosols', 'chemically', 'Unstable', 'aerosols', 'oxidizing', 'aquatic',
@@ -76,7 +82,8 @@ hazards = ['Flammable', 'flammable', 'Gases', 'gases', 'pyrophoric', 'Pyrophoric
            'No', 'need','product', 'is', 'classified', 'does', 'not', 'hazardous', 'GHS', 'criteria', 
            'warning']
 ```
-Assigning variables based off of the columns from the csv that indicate which regulations
+## Section 7: Assigning variables for each column in the master of list (i.e. the list.csv)
+This section could have be added earlier, but it didn't really matter too much except for being before the next section. Here I am assigning variables for each column in the list.csv file. Since I created a EXE file at the end, one issue I kept running into to is having the the code just automatically import the file if the location may change after sending the exe somewhere else. The easiest way was to just have the user input the file into the gui and assigned these variables. The list could be updated whenever the user desired or needed too based off of regulations and staying current. Each column belongs to a specific list, such as TSCA is The Toxic Substances Control Act of 1976 outlined by the EPA. Which has roughly around 64 thousand CAS numbers listed, hence why prescreening tool can be helpful. 
 ```
 TSCA = df2['TSCA'].to_list()
 HAPS = df2['HAPS'].to_list()
@@ -92,7 +99,8 @@ NES_HAPS = df2['NES HAPS'].to_list()
 PBT = df2['PBT\n(WAC 173-333-320)'].to_list()
 IARC = df2['IARC'].to_list()
 ```
-Then checking whether a token is contained in any list and/or "flag" hazard word
+## Section 8: Then checking whether a token is contained in any list and/or "flag" hazard word
+This section is rather explanatory, mostly just running a for loop and checking whether or not the tokens are listed on any of the lists within the list.csv file or hazard list mentioned in section 6 once the variable is called. When the variable is called the identified substance or flagged hazard token is then assigned into a list for the outputted screen.  
 ```
 check =  any(item in hazards for item in tokens)
 check1 =  any(item in TSCA for item in tokens2)
@@ -166,7 +174,8 @@ if check13 is True:
 else:
     x14 = "n/a"
 ``` 
-Outputted pop-up describing what was found
+## Section 9: Outputted pop-up describing what was found
+Here the  newly created lists are displayed in a pop-up after clicking submit in the GUI. I have also added the sg.popup_scrolled function so that a user can copy of the information if needed.
 ```
 sg.popup_scrolled("Auto Prescreened information:","-"*100, 
                   "File information: \n", x, "-"*100,
@@ -186,3 +195,26 @@ sg.popup_scrolled("Auto Prescreened information:","-"*100,
                   "PBT List: ", x13, " ",
                   "IARC List: ", x14, "-"*100,)
 ```
+## Section 10: What it looks like
+Below are two examples of the provided SDS files and how they look on the first GUI page and the outputted popup.
+
+For file: 0101030_Foamstar ST 2412_BASF_08.03.2018_EN.pdf
+
+![image](https://user-images.githubusercontent.com/47721595/147800020-be3fc55f-09a9-4431-9688-ece3722367e5.png)
+
+![image](https://user-images.githubusercontent.com/47721595/147800058-4ed56b5f-5f22-4cf6-8a4e-d46d3dfd76dd.png)
+
+This pop-up basically indicates that there may not be a hazard, however one substance was found to be listed on the TSCA list.
+
+For file: 0110116 MONDUR 1453 - Covestro - 14-JUN-2018 - English.pdf
+
+![image](https://user-images.githubusercontent.com/47721595/147800207-07a10114-2bd5-4182-9350-bc9d3ffc92ed.png)
+
+![image](https://user-images.githubusercontent.com/47721595/147800160-61f250d6-e383-4bde-bbd3-3a389fd5e028.png)
+
+This pop-up indicates that there is most likely a hazard or multiple hazards and multiple substances listed on a few list such as RTK (Right to Know), HAPS (Hazardous air pollutants), and TSCA. 
+
+
+
+
+
