@@ -216,11 +216,27 @@ This pop-up indicates that there is most likely a hazard or multiple hazards and
 
 # Part 2 - How to Convert a Python File to Exe File Using Nuitka
 
+## Section 1: Intro: Why I used Nuitka
+
+After trying to explore and learn a method to convert a python file into a sharable executable file, I stumbled across Nuitka. There isn't really many methods that are as simple to learn and debugg then Nuitka (that I found that is). Most that did seem to work weren't really easy for certain projects. Given my background, as in I am not a computer science major, I had no clue how to convert a python file to an executable file. However, I kept at it trying to learn and debugg my way through different methods. I tried using pyinstaller, auto-py-to-exe, py2exe, but for my project there was always something missing or I had no clue what was missing. Some of the tutorials on the web really didn't go in depth. Some of them were also created early on and lost support for Python3, which in most cases, the only way I find out was through forums. Eventually, I stumbled on a list of Python compliers that mentioned Nuitka. So, I gave it a shot and after some time with some trial and error, I had a more progress than other methods. As I delved into their manual and a few forums, I was able to produce a shareable executible file for this tool.
+
+## Section 2: So What is Nuitka
+
+As described on Nuitka's website: 
+
+"Nuitka is a Python compiler written in Python. Which is also fully compatible with Python2 (2.6, 2.7) and Python3 (3.3 - 3.10). Basically, you feed Nuitka your Python app, it does a lot of clever things, and spits out an executable or extension module."
+
+Link: https://nuitka.net 
+
+Manual: https://nuitka.net/doc/user-manual.html
+
+## Section 3: Steps and how I arrived to getting this to work for me
+
 Note: These steps may vary for each person or project depending on:
-1. which libraries are imported 
+1. which libraries are being imported 
 2. whether or not the exe file is being shared
 3. file size constraints
 4. version of certain libraries
-5. whether or not certian files are in the right directory
+5. whether or not certian files are in the right directory (this is a result of a library missing a file that may be located else where)
 
 
