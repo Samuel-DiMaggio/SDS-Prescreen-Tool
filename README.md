@@ -3,7 +3,7 @@ This tool utilizes tokenization from the NLP library to search through a given S
 
 # Part 1  
 ## Section 1: Importing applicable libraries
-```
+```python
 import PySimpleGUI as sg      
 import PyPDF2
 import re
@@ -16,7 +16,7 @@ import sys
 ```
 ## Section 2: Creating the desired GUI using PySimpleGUI:
 The below code creates the first page of the GUI. The image below that is what is outputted after running the entire script for part 1 in a single cell in a jupyter notebook. I went with a text input box with titles describing what to do. Of course, there are addtional methods in PySimpleGUI for doing the same task. However, changing the input method will also effect how the variables are read, so if considering changing the method here, additional changes in other sections may need to be applied. For more references on PySimpleGUI I recommend following this link: https://pysimplegui.readthedocs.io/en/latest/ 
-```
+```python
 layout = [[sg.Text('Copy and Paste File Name Here add .pdf')], [sg.InputText()],
           [sg.Text('Type list.csv')], [sg.InputText()],
           [sg.Text('Copy and Paste Folder Path')], [sg.InputText()],
@@ -31,14 +31,14 @@ window.close()
 
 ## Section 3: Assigning variables
 Note: values with brackets contianing a number indicate which input field from GUI is assigned. Example: values[0] indicates the first text field in the simple GUI. 
-```
+```python
 nlp = en_core_web_sm.load()
 filename = values[0]
 Important_list = values[1]
 Path = values[2]
 ```
 ## Section 4: Setting up PDF reader and reading a master list  pertaining to Federal/International Chemical Regulations 
-```
+```python
 pdfFile = open(os.path.join(Path, filename),'rb')
 df2 = pd.read_csv(os.path.join(Path, Important_list))
 pdfFileReader = PyPDF2.PdfFileReader(pdfFile)
@@ -47,7 +47,7 @@ output = []
 ```
 ## Section 5: Tokenizing the word count
 In the below code, for the variable "tokens2", you will notice that its finding all characters until the 3500th character location with the syntax of (\d{1,6}[-]??\d{2}[-]??\d{1}). This is because in the world of chemical regulations every chemical and/or substance is assigned a numerical code. This numerical code is called a CAS number. For instance Formaldehyde's CAS number is 50-00-0. In the section three of a Safety Data Sheet, is where a list of substances that make up finished product that are deemed hazardous and are classified under the global harmonized system (GHS). This location is normally where someone would identify a CAS number. Section 1 of an SDS identifies the product and manufacturer's contact information. Section 2 of the SDS lists hazards classified under GHS. Setting the search to end at the 3500th character location reduces the chances of having additional information that may or may not be needed depending on task. If needed to illustrate this, I have provided SDS examples from two different manufacturers in the files section and screenshots of the first pages of one below the code.
-```
+```python
 for i in range(pageCount):
     pdfPage = pdfFileReader.getPage(i)
     output.append(pdfPage.extractText())
@@ -68,7 +68,7 @@ If you want to learn more about GHS, I would recommend this link: https://www.cc
 Also, if you are a curious person and want to know hazards of specific chemicals I would recommend searching through Europes Chemical Agency's database by this link: https://echa.europa.eu/
 
 Note: Once you click and get routed to desired substance page, click on C&L Inventory button located half way down the page. This will list hazards associated with the substance if its not diluted.
-```
+```python
 hazards = ['Flammable', 'flammable', 'Gases', 'gases', 'pyrophoric', 'Pyrophoric', 'Chemically', 
            'unstable', 'Aerosols', 'chemically', 'Unstable', 'aerosols', 'oxidizing', 'aquatic',
            'Oxidizing', 'under', 'pressure', 'liquids', 'Liquids', 'Solids', 'solids', 'sensitisation', 
@@ -84,7 +84,7 @@ hazards = ['Flammable', 'flammable', 'Gases', 'gases', 'pyrophoric', 'Pyrophoric
 ```
 ## Section 7: Assigning variables for each column in the master of list (i.e. the list.csv)
 This section could have be added earlier, but it didn't really matter too much except for being before the next section. Here I am assigning variables for each column in the list.csv file. Since I created a EXE file at the end, one issue I kept running into to is having the the code just automatically import the file if the location may change after sending the exe somewhere else. The easiest way was to just have the user input the file into the gui and assigned these variables. The list could be updated whenever the user desired or needed too based off of regulations and staying current. Each column belongs to a specific list, such as TSCA is The Toxic Substances Control Act of 1976 outlined by the EPA. Which has roughly around 64 thousand CAS numbers listed, hence why prescreening tool can be helpful. 
-```
+```python
 TSCA = df2['TSCA'].to_list()
 HAPS = df2['HAPS'].to_list()
 EHS = df2['EHS'].to_list()
@@ -101,7 +101,7 @@ IARC = df2['IARC'].to_list()
 ```
 ## Section 8: Then checking whether a token is contained in any list and/or "flag" hazard word
 This section is rather explanatory, mostly just running a for loop and checking whether or not the tokens are listed on any of the lists within the list.csv file or hazard list mentioned in section 6 once the variable is called. When the variable is called the identified substance or flagged hazard token is then assigned into a list for the outputted screen.  
-```
+```python
 check =  any(item in hazards for item in tokens)
 check1 =  any(item in TSCA for item in tokens2)
 check2 =  any(item in HAPS for item in tokens2)
@@ -176,7 +176,7 @@ else:
 ``` 
 ## Section 9: Outputted pop-up describing what was found
 Here the  newly created lists are displayed in a pop-up after clicking submit in the GUI. I have also added the sg.popup_scrolled function so that a user can copy of the information if needed.
-```
+```python
 sg.popup_scrolled("Auto Prescreened information:","-"*100, 
                   "File information: \n", x, "-"*100,
                   "Possible Hazard Stop Words: \n", x1, "-"*100,
@@ -297,5 +297,6 @@ in this directory:
 copy over the "en_core_web_sm" file to: ...\Desktop\Folder\file.dist
 
 ## My end result that got me a sharable Exe file:
-
+```powershell
 python -m nuitka --mingw64 --standalone --follow-imports --plugin-enable=anti-bloat --plugin-enable=numpy --plugin-enable=pylint-warnings --plugin-enable=multiprocessing --plugin-enable=tensorflow --plugin-enable=tk-inter --plugin-enable=torch --plugin-enable=pbr-compat --plugin-enable=pkg-resources --plugin-enable=data-files --plugin-enable=dill-compat --plugin-no-detection --prefer-source-code --assume-yes-for-downloads --show-scons --include-module=srsly.msgpack.util --include-module=cymem --include-module=preshed.maps --include-module=thinc.backends.linalg --include-module=blis --include-module=spacy.parts_of_speech --include-module=spacy.tokens._dict_proxies --include-module=spacy.lexeme --include-module=spacy.lang.norm_exceptions --include-module=spacy.lang.lex_attrs --include-module=spacy.pipeline.transition_parser --include-module=spacy.pipeline._parser_internals.stateclass --include-module=spacy.pipeline._parser_internals.transition_system --include-package-data=PACKAGE_DATA --include-package=spacy --include-package=tensorflow --include-package=thinc --include-package=en_core_web_sm --include-package-data=PATTERN --windows-icon-from-ico=favicon.ico NLP_SDS_Prescreening_os.py
+```
