@@ -1,5 +1,5 @@
 # SDS Prescreen Tool with instructions on how to convert a python file to an EXE using Nuitka
-This tool utilizes tokenization from the NLP library to search through a given Safety Data Sheet (SDS) to identify chemicals of interest that pertain to federal and international regulatory requirements. This was a project that I worked on as a Regulatory Analyst for a chemical company that specialized on adhesives for consumer and industrial products. The main purpose was to quickly identify or flagg chemicals that appear in a SDS that also are listed on mulitple federal and international regulatory lists. In the first half of this project, will be the python code that I wrote for this project. This contains a simple GUI input and output for a easy user experience. In the second half of this project, there will be a reference guide on  how to convert a python file to a executable file using Nuitka. From my experience in this project, Nuitka was the easiest and fastest way to convert a python file to an executable file that also can be shared with someone else. I recommend if you visited this link for learning how, I recommend jumping to section 2 (eventualy, I will create another respository for only this and provide a link here). There will be additional information about Nuitka located there as well.
+This tool utilizes tokenization from the NLP library to search through a given Safety Data Sheet (SDS) to identify chemicals of interest that pertain to federal and international regulatory requirements. This was a project that I worked on as a Regulatory Analyst for a chemical company that specialized on adhesives for consumer and industrial products. The main purpose was to quickly identify or flag chemicals that appear in a SDS that also are listed on mulitple federal and international regulatory lists. In the first half of this project will be the python code that I wrote. This contains a simple GUI input and output for an easy user experience. In the second half of this project, there will be a reference guide on  how to convert a python file to an executable file using Nuitka. From my experience, Nuitka is the easiest and fastest way to convert a python file to an executable file that also can be shared with someone else. If you visited this link for learning how, I recommend jumping to section 2 (eventualy, I will create another respository for only this and provide a link here). There will be additional information about Nuitka located there as well.
 
 # Part 1  
 ## Section 1: Importing applicable libraries
@@ -37,7 +37,7 @@ filename = values[0]
 Important_list = values[1]
 Path = values[2]
 ```
-## Section 4: Setting up PDF reader and reading a master list  pertaining to Federal/International Chemical Regulations 
+## Section 4: Setting up PDF reader and reading a master list pertaining to Federal/International Chemical Regulations 
 ```python
 pdfFile = open(os.path.join(Path, filename),'rb')
 df2 = pd.read_csv(os.path.join(Path, Important_list))
@@ -46,7 +46,7 @@ pageCount = pdfFileReader.numPages
 output = []
 ```
 ## Section 5: Tokenizing the word count
-In the below code, for the variable "tokens2", you will notice that its finding all characters until the 3500th character location with the syntax of (\d{1,6}[-]??\d{2}[-]??\d{1}). This is because in the world of chemical regulations every chemical and/or substance is assigned a numerical code. This numerical code is called a CAS number. For instance Formaldehyde's CAS number is 50-00-0. In the section three of a Safety Data Sheet, is where a list of substances that make up finished product that are deemed hazardous and are classified under the global harmonized system (GHS). This location is normally where someone would identify a CAS number. Section 1 of an SDS identifies the product and manufacturer's contact information. Section 2 of the SDS lists hazards classified under GHS. Setting the search to end at the 3500th character location reduces the chances of having additional information that may or may not be needed depending on task. If needed to illustrate this, I have provided SDS examples from two different manufacturers in the files section and screenshots of the first pages of one below the code.
+In the below code, for the variable "tokens2", you will notice that it's finding all characters until the 3500th character location with the syntax of (\d{1,6}[-]??\d{2}[-]??\d{1}). This is because in the world of chemical regulations every chemical and/or substance is assigned a numerical code. This numerical code is called a CAS number. For instance Formaldehyde's CAS number is 50-00-0. In section three of each Safety Data Sheet there is a list of substances that are deemed hazardous and are classified under the global harmonized system (GHS). This location is normally where someone would identify a CAS number. Section 1 of an SDS identifies the product and manufacturer's contact information. Section 2 of the SDS lists hazards classified under GHS. Setting the search to end at the 3500th character location reduces the chances of having additional information that may or may not be needed depending on the task. If needed to illustrate this, I have provided SDS examples from two different manufacturers in the files section and screenshots of the first pages of one below the code.
 ```python
 for i in range(pageCount):
     pdfPage = pdfFileReader.getPage(i)
@@ -62,12 +62,12 @@ tokens2 = re.findall("(\d{1,6}[-]??\d{2}[-]??\d{1})", alltexts[:3500])
 ![image](https://user-images.githubusercontent.com/47721595/147798469-0a0c7455-0781-479a-9a16-fd8a34875447.png)
 
 ## Section 6: Listing specific words of interest or "flags" that might indicate hazards
-As previously mention, in section 2 of a SDS is where a company lists GHS classified hazards for a product. There is many different type of hazards along with categorical indentifiers for each hazard. Prior to 2013, hazards were listed very ambiguously and left a reader uncertain. As a result GHS was created to reduce this ambigous language in section this section, but also create a standard for all Safety Data Sheets. This of course is whether or not a country adapts this as a regulation, so some SDSs may differ for regions. 
+As previously mention, in section 2 of a SDS is where a company lists GHS classified hazards for a product. There is many different types of hazards along with categorical indentifiers for each hazard. Prior to 2013, hazards were listed very ambiguously and left a reader uncertain. As a result, GHS was created to reduce this ambigous language in this section, but also create a standard for all Safety Data Sheets. This of course is dependent on whether or not a country adopts to this regulation, so some SDSs may differ for different regions. 
 
 If you want to learn more about GHS, I would recommend this link: https://www.ccohs.ca/oshanswers/chemicals/ghs.html 
-Also, if you are a curious person and want to know hazards of specific chemicals I would recommend searching through Europes Chemical Agency's database by this link: https://echa.europa.eu/
+Also, if you are a curious person and want to know hazards of specific chemicals I would recommend searching through Europe's Chemical Agency's database by this link: https://echa.europa.eu/
 
-Note: Once you click and get routed to desired substance page, click on C&L Inventory button located half way down the page. This will list hazards associated with the substance if its not diluted.
+Note: Once you click and get routed to desired substance page, click on C&L Inventory button located half-way down the page. This will list hazards associated with the substance if its not diluted.
 ```python
 hazards = ['Flammable', 'flammable', 'Gases', 'gases', 'pyrophoric', 'Pyrophoric', 'Chemically', 
            'unstable', 'Aerosols', 'chemically', 'Unstable', 'aerosols', 'oxidizing', 'aquatic',
@@ -83,7 +83,7 @@ hazards = ['Flammable', 'flammable', 'Gases', 'gases', 'pyrophoric', 'Pyrophoric
            'warning']
 ```
 ## Section 7: Assigning variables for each column in the master of list (i.e. the list.csv)
-This section could have be added earlier, but it didn't really matter too much except for being before the next section. Here I am assigning variables for each column in the list.csv file. Since I created a EXE file at the end, one issue I kept running into to is having the the code just automatically import the file if the location may change after sending the exe somewhere else. The easiest way was to just have the user input the file into the gui and assigned these variables. The list could be updated whenever the user desired or needed too based off of regulations and staying current. Each column belongs to a specific list, such as TSCA is The Toxic Substances Control Act of 1976 outlined by the EPA. Which has roughly around 64 thousand CAS numbers listed, hence why prescreening tool can be helpful. 
+Here I am assigning variables for each column in the list.csv file. Since I created an EXE file at the end, one issue I kept running into to was having the code automatically import the file if the file location changes after sending the exe somewhere else. The easiest way was to solve this was to have the user input the file into the gui and assign these variables. The list could be updated whenever the user desired or needed to based off of changes within regulations. Each column belongs to a specific list. For example,  the Toxic Substances Control Act of 1976 is denoted as TSCA which has roughly 64 thousand CAS numbers listed, hence why prescreening tool can be helpful. 
 ```python
 TSCA = df2['TSCA'].to_list()
 HAPS = df2['HAPS'].to_list()
@@ -100,7 +100,7 @@ PBT = df2['PBT\n(WAC 173-333-320)'].to_list()
 IARC = df2['IARC'].to_list()
 ```
 ## Section 8: Then checking whether a token is contained in any list and/or "flag" hazard word
-This section is rather explanatory, mostly just running a for loop and checking whether or not the tokens are listed on any of the lists within the list.csv file or hazard list mentioned in section 6 once the variable is called. When the variable is called the identified substance or flagged hazard token is then assigned into a list for the outputted screen.  
+This section is explanatory, mostly running a for loop and checking whether or not the tokens are listed on any of the lists within the list.csv file or hazard list mentioned in section 6 once the variable is called. When the variable is called, the identified substance or flagged hazard token is then assigned into a list for the outputted screen.  
 ```python
 check =  any(item in hazards for item in tokens)
 check1 =  any(item in TSCA for item in tokens2)
@@ -175,7 +175,7 @@ else:
     x14 = "n/a"
 ``` 
 ## Section 9: Outputted pop-up describing what was found
-Here the  newly created lists are displayed in a pop-up after clicking submit in the GUI. I have also added the sg.popup_scrolled function so that a user can copy of the information if needed.
+Here the newly created lists are displayed in a pop-up after clicking "submit" in the GUI. I have also added the sg.popup_scrolled function so that a user can copy and scroll through the information.
 ```python
 sg.popup_scrolled("Auto Prescreened information:","-"*100, 
                   "File information: \n", x, "-"*100,
@@ -196,7 +196,7 @@ sg.popup_scrolled("Auto Prescreened information:","-"*100,
                   "IARC List: ", x14, "-"*100,)
 ```
 ## Section 10: What it looks like
-Below are two examples of the provided SDS files and how they look on the first GUI page and the outputted popup.
+Below are two examples of the provided SDS files and how they look on the first GUI page and the outputted pop-up.
 
 For file: 0101030_Foamstar ST 2412_BASF_08.03.2018_EN.pdf
 
@@ -212,13 +212,13 @@ For file: 0110116 MONDUR 1453 - Covestro - 14-JUN-2018 - English.pdf
 
 ![image](https://user-images.githubusercontent.com/47721595/147800160-61f250d6-e383-4bde-bbd3-3a389fd5e028.png)
 
-This pop-up indicates that there is most likely a hazard or multiple hazards and multiple substances listed on a few list such as RTK (Right to Know), HAPS (Hazardous air pollutants), and TSCA. 
+This pop-up indicates that there is most likely a hazard or multiple hazards and multiple substances listed on a few lists such as RTK (Right to Know), HAPS (Hazardous air pollutants), and TSCA. 
 
 # Part 2 - How to Convert a Python File to Exe File Using Nuitka
 
 ## Section 1: Intro: Why I used Nuitka
 
-After trying to explore and learn a method to convert a python file into a sharable executable file, I stumbled across Nuitka. There isn't really many methods that are as simple to learn and debugg then Nuitka (that I found that is). Most that did seem to work weren't really easy for certain projects. Given my background, as in I am not a computer science major, I had no clue how to convert a python file to an executable file. However, I kept at it trying to learn and debugg my way through different methods. I tried using pyinstaller, auto-py-to-exe, py2exe, but for my project there was always something missing or I had no clue what was missing. Some of the tutorials on the web really didn't go in depth. Some of them were also created early on and lost support for Python3, which in most cases, the only way I find out was through forums. Eventually, I stumbled on a list of Python compliers that mentioned Nuitka. So, I gave it a shot and after some time with some trial and error, I had a more progress than other methods. As I delved into their manual and a few forums, I was able to produce a shareable executible file for this tool.
+After trying to explore and learn a method to convert a python file into a sharable executable file, I stumbled across Nuitka. In my experience, there isn't many methods that are as simple to learn and debugg as Nuitka. Given my background, as I am not a computer science major, I did not know how to convert a python file to an executable file. However, I kept at it trying to learn and debugg my way through different methods. I tried using pyinstaller, auto-py-to-exe, py2exe, but for my project there was always something missing or I had no clue what was missing. Some of the tutorials on the web really didn't go into depth. Some of them were also created early on and lost support for Python3, which in most cases, the only way I find out was through forums. Eventually, I stumbled on a list of Python compliers that mentioned Nuitka. I gave it a shot and after some time with some trial and error I had a more progress than with other methods. As I delved into Nuitika's manual and a few forums, I was able to produce a shareable executible file for this tool.
 
 ## Section 2: So What is Nuitka
 
@@ -237,13 +237,13 @@ Note: These steps may vary for each person or project depending on:
 2. whether or not the exe file is being shared
 3. file size constraints
 4. version of certain libraries
-5. whether or not certian files are in the right directory (this is a result of a library missing a file that may be located else where)
+5. whether or not certain files are in the right directory (this is a result of a library missing a file that may be located else where)
 
 ## Requirements:
-Mentioned in the User manual there is some requirements for using Nuitka:
+As mentioned in the user manual, there are some requirements for using Nuitka:
 
-C Compiler: You need a compiler with support for C11 or alternatively for C++03 1
-Currently this means, you need to use one of these compilers:
+C Compiler: You need a compiler with support for C11 or alternatively for C++03 1.
+Currently this means you need to use one of these compilers:
 
 1. The MinGW64 C11 compiler on Windows, must be based on gcc 11.2 or higher. It will be automatically downloaded if no usable C compiler is found, which is the recommended way of installing it, as Nuitka will also upgrade it for you.
 
@@ -263,22 +263,26 @@ python -m pip install nuitka
 Verify using command python -m nuitka --version
 
 ## If applicable, convert .ipynb to .py
-If you are using jupyter notebook, you will need to download your .ipynb file as a .py file. To do this open the .ipynb file in juypter notebook. Under the file tab, scroll down to download as, to the right will be a list. Select python (.py). Basically, this will just copy your .ipynb as a .py file. 
+If you are using jupyter notebook, you will need to download your .ipynb file as a .py file. To do this, open the .ipynb file in juypter notebook. Under the file tab, scroll down to "download as". To the right will be a list. Select python (.py). This will just copy your .ipynb as a .py file. 
 
 ## Basics:
+Note: I am not going to go through every fine detail, since there is a lot to go through. I would use the manual provided in the link above and read the additional information. However, below are some basic things to know along with some helpful tips that I wish were explained more in detail when I started to figure this out. 
 
-1. Use command line 
+1. Use the command line 
 2. Set or change directory where .py file is located
 Example: cd C:\Users\Your_Name\Desktop\folder
-3. 
+3. Basic code: python -m nuitka --onefile program.py 
 
 ## Some of my Tips
-1. Use --help to get 
-2. Read the manual when you get lost, however
-3. Make sure to enable pluggins, if unsure read through the --help in command line
-4. use --plugin-enable=anti-bloat to reduce size of the exe file or unwanted files in the file.dist
-5. Be prepared to compile lots of extension modules by using --module some_module.py for every module that is needed or missing. The unknown modules can be determine by trial and error with running the new exe file in Virtual Studio. 
-6. Be prepared to add files to the file.dist folder from specific folders. These files aren't located in the correct file location when compiling, this results in an error. The list below were the missing files based off of my imported libraries in my python code:
+1. Use --help to lookup what each command does. 
+2. When you get lost, read the manual, google how others have used the code, and/or read through forums to find whether or not its a bug. If its a bug, Nuitka's website suggests reporting the issue on their bug tracker: https://github.com/Nuitka/Nuitka/issues
+3. Make sure to enable plug-ins, if unsure read through the --help in command line
+4. Use --plugin-enable=anti-bloat to reduce size of the exe file or unwanted files in the file.dist. This reduces dependency creep of unwanted files from other python libraries from being stored into the executable file. 
+5. When using a gui, research which module will be needed. For example, SimplePyGUI is a tkinter module while PyQT has a seperate module that you will need to reference. 
+6. Understand the basic code first. Add key information after --onefile or --standalone but before the file.py. 
+7. Debugg the program using --onefile, before using --standalone. Using --standalone will make sure its distributable, while --onefile will only work on your PC. 
+8. Be prepared to compile lots of extension modules by using --module some_module.py for every module that is needed or missing. The unknown modules can be determine by trial and error with running the new exe file in Virtual Studio. 
+9. Be prepared to add files to the file.dist folder from specific folders. These files aren't located in the correct file location when compiling, this results in an error. Refer to the list below for missing file locations based off of my imported libraries in my python code:
 
 located in directory:
 ...\AppData\Roaming\Python\Python38\site-packages\tensorflow\lite
@@ -297,6 +301,6 @@ in this directory:
 copy over the "en_core_web_sm" file to: ...\Desktop\Folder\file.dist
 
 ## My end result that got me a sharable Exe file:
-```powershell
+
 python -m nuitka --mingw64 --standalone --follow-imports --plugin-enable=anti-bloat --plugin-enable=numpy --plugin-enable=pylint-warnings --plugin-enable=multiprocessing --plugin-enable=tensorflow --plugin-enable=tk-inter --plugin-enable=torch --plugin-enable=pbr-compat --plugin-enable=pkg-resources --plugin-enable=data-files --plugin-enable=dill-compat --plugin-no-detection --prefer-source-code --assume-yes-for-downloads --show-scons --include-module=srsly.msgpack.util --include-module=cymem --include-module=preshed.maps --include-module=thinc.backends.linalg --include-module=blis --include-module=spacy.parts_of_speech --include-module=spacy.tokens._dict_proxies --include-module=spacy.lexeme --include-module=spacy.lang.norm_exceptions --include-module=spacy.lang.lex_attrs --include-module=spacy.pipeline.transition_parser --include-module=spacy.pipeline._parser_internals.stateclass --include-module=spacy.pipeline._parser_internals.transition_system --include-package-data=PACKAGE_DATA --include-package=spacy --include-package=tensorflow --include-package=thinc --include-package=en_core_web_sm --include-package-data=PATTERN --windows-icon-from-ico=favicon.ico NLP_SDS_Prescreening_os.py
-```
+
