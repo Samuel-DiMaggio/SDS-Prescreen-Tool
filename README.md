@@ -284,20 +284,20 @@ Example: cd C:\Users\Your_Name\Desktop\folder
 8. Be prepared to compile lots of extension modules by using --module some_module.py for every module that is needed or missing. The unknown modules can be determine by trial and error with running the new exe file in Virtual Studio. 
 9. Be prepared to add files to the file.dist folder from specific folders. These files aren't located in the correct file location when compiling, this results in an error. Refer to the list below for missing file locations based off of my imported libraries in my python code:
 
-located in directory:
-...\AppData\Roaming\Python\Python38\site-packages\tensorflow\lite
+a) In ...\AppData\Roaming\Python\Python38\site-packages\tensorflow\lite
+
 copy over the "experimental folder" to: ...\Desktop\Folder\file.dist\tensorflow\lite
 
-in this directory:
-...\anaconda3\Lib\site-packages\thinc\backends
+b) In ...\anaconda3\Lib\site-packages\thinc\backends
+
 copy over "_custom_kernals.cu" and "_murmur3.cu" to"...\Desktop\folder\file.dist\thinc\backends
 
-in this directory:
-...\anaconda3\Lib\site-packages\spacy
+c) In ...\anaconda3\Lib\site-packages\spacy
+
 copy over "default_config.cfg" and "cli" folders to:  ...\Desktop\folder\file.dist\spacy
 
-in this directory:
-...\anaconda3\Lib
+d) In ...\anaconda3\Lib
+
 copy over the "en_core_web_sm" file to: ...\Desktop\Folder\file.dist
 
 ## My end result that got me a sharable Exe file:
